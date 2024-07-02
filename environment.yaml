@@ -9,7 +9,7 @@ services:
       service:
         name: serverless-devs-application
       function:
-        name: huan-yi-fu-u13w
+        name: huan-yi-fu-o4t1
         description: Initialize
         runtime: custom
         environmentVariables:
