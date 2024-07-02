@@ -1,32 +1,48 @@
-name: idm
-channels:
-  - pytorch
-  - nvidia
-  - defaults
-dependencies:
-  - python=3.10.0=h12debd9_5
-  - pytorch=2.0.1=py3.10_cuda11.8_cudnn8.7.0_0
-  - pytorch-cuda=11.8=h7e8668a_5
-  - torchaudio=2.0.2=py310_cu118
-  - torchtriton=2.0.0=py310
-  - torchvision=0.15.2=py310_cu118
-  - pip=23.3.1=py310h06a4308_0
-
-  - pip:
-      - accelerate==0.25.0
-      - torchmetrics==1.2.1
-      - tqdm==4.66.1
-      - transformers==4.36.2
-      - diffusers==0.25.0
-      - einops==0.7.0
-      - bitsandbytes==0.39.0
-      - scipy==1.11.1
-      - opencv-python
-      - gradio==4.24.0
-      - fvcore
-      - cloudpickle
-      - omegaconf
-      - pycocotools
-      - basicsr
-      - av
-      - onnxruntime==1.16.2
+edition: 1.0.0
+name: my-framework-app
+access: default
+services:
+  framework:
+    component: fc
+    props:
+      region: cn-hangzhou
+      service:
+        name: serverless-devs-application
+      function:
+        name: huan-yi-fu-u13w
+        description: Initialize
+        runtime: custom
+        environmentVariables:
+          PATH: >-
+            /opt/python3.10/bin:/usr/local/bin/apache-maven/bin:/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/ruby/bin:/opt/bin:/code:/code/bin
+          PYTHONPATH: /opt/python:/code
+          LD_LIBRARY_PATH: >-
+            /code:/code/lib:/usr/local/lib:/opt/lib:/opt/php8.1/lib:/opt/php8.0/lib:/opt/php7.2/lib
+        layers:
+          - acs:fc:cn-hangzhou:official:layers/Python310/versions/2
+          - >-
+            acs:fc:cn-hangzhou:official:layers/Python310-Package-Collection/versions/2
+          - acs:fc:cn-hangzhou:official:layers/Python3-Flask2x/versions/2
+        memorySize: 128
+        cpu: 0.05
+        timeout: 60
+        codeUri: ./
+        diskSize: 512
+        caPort: 9000
+        customRuntimeConfig:
+          command:
+            - python
+          args:
+            - app.py
+      triggers:
+        - name: httpTrigger
+          type: http
+          config:
+            authType: anonymous
+            methods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - HEAD
+              - PATCH
